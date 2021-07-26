@@ -22,7 +22,7 @@ jobs:
           cmake .. -DCMAKE_INSTALL_PREFIX=/usr/retdec-install -DCMAKE_LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7
           make -j$(nproc)
           sudo make install
-          tar -zcvf retdec-install.tar.gz
+          tar -zcvf retdec-install.tar.gz /usr/retdec-install
 
 
       - name: Create release for master branch
