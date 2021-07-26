@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run a multi-line script
+        run: |
+          sudo apt-get -y install python3 doxygen graphviz upx openssl libssl-dev zlib1g-dev autoconf automake pkg-config m4 libtool
+          git clone https://github.com/avast/retdec ret
+          cd ret
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=/usr/retdec-install -DCMAKE_LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7
+          make -j$(nproc)
+          sudo make install
+          tar -zcvf retdec-install.tar.gz
+
+
+      - name: Create release for master branch
+        if: github.ref == 'refs/heads/master'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          title: "Latest  build"
+          files: ret/build/retdec-install.tar.gz
