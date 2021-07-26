@@ -22,14 +22,22 @@ jobs:
           cmake .. -DCMAKE_INSTALL_PREFIX=/usr/retdec-install -DCMAKE_LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7
           make -j$(nproc)
           sudo make install
-          tar -zcvf retdec-install.tar.gz /usr/retdec-install
+
+      - name: Decompile
+        run: |
+          git clone https://github.com/7dog123/decompile-so
+          cd decompile-so/aide-hack/busybox/arm/bin
+          PATH=/usr/retdec-install/bin:$PATH
+          retdec-decompiler busybox
+          ls
+          #tar -zcvf retdec-install.tar.gz /usr/retdec-install
 
 
-      - name: Create release for master branch
-        if: github.ref == 'refs/heads/master'
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          title: "Latest  build"
-          files: ret/build/retdec-install.tar.gz
+    #  - name: Create release for master branch
+     #   if: github.ref == 'refs/heads/master'
+      #  uses: marvinpinto/action-automatic-releases@latest
+      #  with:
+      #    repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #    automatic_release_tag: "latest"
+      #    title: "Latest  build"
+      #    files: ret/build/retdec-install.tar.gz
