@@ -28,7 +28,7 @@ jobs:
           git clone https://github.com/7dog123/decompile-so
           cd decompile-so/aide-hack/busybox/arm/bin
           PATH=/usr/retdec-install/bin:$PATH
-          retdec-decompiler busybox
+          retdec-decompiler --help # busybox
           ls
           #tar -zcvf retdec-install.tar.gz /usr/retdec-install
 
