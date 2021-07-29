@@ -25,10 +25,10 @@ jobs:
 
       - name: Decompile
         run: |
-          git clone https://github.com/7dog123/decompile-so
-          cd decompile-so/aide-hack/busybox/arm/bin
+          git clone https://github.com/7dog123/gba-decompile
+          cd gba-decompile
           PATH=/usr/retdec-install/bin:$PATH
-          retdec-decompiler --help # busybox
+          retdec-decompiler Doom2.gba -o doom2.gba.c
           ls
           #tar -zcvf retdec-install.tar.gz /usr/retdec-install
 
